@@ -6,28 +6,28 @@ using namespace std;
 
 void composing(Mat img1, Mat img2, Mat background)
 {
-	Mat initial; //ÃÊ¼º
-	Mat final; //Á¾¼º
-	Mat dst; //ÃÖÁ¾ÀÌ¹ÌÁö
+	Mat initial; //ì´ˆì„±
+	Mat final; //ì¢…ì„±
+	Mat dst; //ìµœì¢…ì´ë¯¸ì§€
 
-    //ÀÌ¹ÌÁö ¸®»çÀÌÁî
-	//Size(width, height), º¸°£¹ı INTER_AREA
+    //ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì¦ˆ
+	//Size(width, height), ë³´ê°„ë²• INTER_AREA
 	resize(img1, initial, Size(300, 300), INTER_AREA);
 	resize(img2, final, Size(200, 500), INTER_AREA);
 
-	//¹è°æ¿¡ ¸®»çÀÌÁîÇÑ ÀÌ¹ÌÁö ºÙÀÌ±â
-	//Rect(xÁÂÇ¥,yÁÂÇ¥,width,height)
+	//ë°°ê²½ì— ë¦¬ì‚¬ì´ì¦ˆí•œ ì´ë¯¸ì§€ ë¶™ì´ê¸°
+	//Rect(xì¢Œí‘œ,yì¢Œí‘œ,width,height)
 	background(Rect(0, 0, 300, 300)) = initial;
 	background(Rect(300, 0, 200, 500)) = final;
 
-	//ÀÌÁøÈ­ÇØ¼­ ±ÛÀÚ¸¸ ÃßÃâÇÏ±â
-	//¿­°Å»ó¼ö THRESH_BINARY_INV
+	//ì´ì§„í™”í•´ì„œ ê¸€ìë§Œ ì¶”ì¶œí•˜ê¸°
+	//ì—´ê±°ìƒìˆ˜ THRESH_BINARY_INV
 	threshold(background, dst, 170, 255, THRESH_BINARY_INV);
 
-	//»ö¹İÀü
+	//ìƒ‰ë°˜ì „
 	dst = ~dst;
 
-	//ÀÌ¹ÌÁö º¸¿©ÁÖ±â
+	//ì´ë¯¸ì§€ ë³´ì—¬ì£¼ê¸°
 	imshow("font_Composing", dst);
 
 }
@@ -41,6 +41,8 @@ int main()
 	composing(first, last, backimg);
 
 	waitKey();
+	destroyAllWindows();
+	
 	return 0;
 
 }

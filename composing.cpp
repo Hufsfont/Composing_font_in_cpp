@@ -4,46 +4,38 @@
 using namespace cv;
 using namespace std;
 
-void composing(Mat img1, Mat img2, Mat background)
-{
-	Mat initial; //ì´ˆì„±
-	Mat final; //ì¢…ì„±
-	Mat dst; //ìµœì¢…ì´ë¯¸ì§€
-
-    	//ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì¦ˆ
-	//Size(width, height), ë³´ê°„ë²• INTER_AREA
-	resize(img1, initial, Size(300, 300), INTER_AREA);
-	resize(img2, final, Size(200, 500), INTER_AREA);
-
-	//ë°°ê²½ì— ë¦¬ì‚¬ì´ì¦ˆí•œ ì´ë¯¸ì§€ ë¶™ì´ê¸°
-	//Rect(xì¢Œí‘œ,yì¢Œí‘œ,width,height)
-	background(Rect(0, 0, 300, 300)) = initial;
-	background(Rect(300, 0, 200, 500)) = final;
-
-	//ì´ì§„í™”í•´ì„œ ê¸€ìë§Œ ì¶”ì¶œí•˜ê¸°
-	//ì—´ê±°ìƒìˆ˜ THRESH_BINARY_INV
-	threshold(background, dst, 170, 255, THRESH_BINARY_INV);
-
-	//ìƒ‰ë°˜ì „
-	dst = ~dst;
-
-	//ì´ë¯¸ì§€ ë³´ì—¬ì£¼ê¸°
-	imshow("font_Composing", dst);
-
-}
-
 int main()
 {
 	Mat first = imread("choseong.jpg", IMREAD_GRAYSCALE);
 	Mat last = imread("jongseong.jpg", IMREAD_GRAYSCALE);
-	Mat backimg = imread("background.jpg");
+	Mat final = imread("1.jpg", IMREAD_GRAYSCALE);
+	Mat dst; //°¡·Î·Î ÀÌ¹ÌÁö ºÙÀÎ °á°ú
+	Mat dst_1; //¼¼·Î·Î ÀÌ¹ÌÁö ºÙÀÎ °á°ú
 
-	composing(first, last, backimg);
+
+	resize(first, first, Size(300, 300), INTER_AREA);
+	resize(last, last, Size(200, 300), INTER_AREA);
+	resize(final, final, Size(500, 300), INTER_AREA);
+
+	hconcat(first, last, dst); //°¡·Î·Î ÀÌ¹ÌÁö ºÙÀÌ±â
+
+	vconcat(dst, final, dst_1); //¼¼·Î·Î ÀÌ¹ÌÁö ºÙÀÌ±â
+
+	//ÀÌÁøÈ­ÇØ¼­ ±ÛÀÚ¸¸ ÃßÃâÇÏ±â
+	//¿­°Å»ó¼ö THRESH_BINARY_INV
+	threshold(dst_1, dst_1, 170, 255, THRESH_BINARY_INV);
+
+	//»ö¹İÀü
+	dst_1 = ~dst_1;
+
+	resize(dst_1, dst_1, Size(500, 500), INTER_AREA);
+
+	//ÀÌ¹ÌÁö º¸¿©ÁÖ±â
+	imshow("font_Composing", dst_1);
 
 	waitKey();
 	destroyAllWindows();
-	
+
 	return 0;
 
 }
-

@@ -10,7 +10,7 @@ void composing(Mat img1, Mat img2, Mat background)
 	Mat final; //종성
 	Mat dst; //최종이미지
 
-    //이미지 리사이즈
+    	//이미지 리사이즈
 	//Size(width, height), 보간법 INTER_AREA
 	resize(img1, initial, Size(300, 300), INTER_AREA);
 	resize(img2, final, Size(200, 500), INTER_AREA);

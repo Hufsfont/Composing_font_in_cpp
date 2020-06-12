@@ -7,30 +7,30 @@ using namespace std;
 int main()
 {
 	Mat first = imread("choseong.jpg", IMREAD_GRAYSCALE);
-	Mat last = imread("jongseong.jpg", IMREAD_GRAYSCALE);
+	Mat medi = imread("jongseong.jpg", IMREAD_GRAYSCALE);
 	Mat final = imread("1.jpg", IMREAD_GRAYSCALE);
-	Mat dst; //°¡·Î·Î ÀÌ¹ÌÁö ºÙÀÎ °á°ú
-	Mat dst_1; //¼¼·Î·Î ÀÌ¹ÌÁö ºÙÀÎ °á°ú
+	Mat dst; //ê°€ë¡œë¡œ ì´ë¯¸ì§€ ë¶™ì¸ ê²°ê³¼
+	Mat dst_1; //ì„¸ë¡œë¡œ ì´ë¯¸ì§€ ë¶™ì¸ ê²°ê³¼
 
 
 	resize(first, first, Size(300, 300), INTER_AREA);
-	resize(last, last, Size(200, 300), INTER_AREA);
+	resize(medi, medi, Size(200, 300), INTER_AREA);
 	resize(final, final, Size(500, 300), INTER_AREA);
 
-	hconcat(first, last, dst); //°¡·Î·Î ÀÌ¹ÌÁö ºÙÀÌ±â
+	hconcat(first, medi, dst); //ê°€ë¡œë¡œ ì´ë¯¸ì§€ ë¶™ì´ê¸°
 
-	vconcat(dst, final, dst_1); //¼¼·Î·Î ÀÌ¹ÌÁö ºÙÀÌ±â
+	vconcat(dst, final, dst_1); //ì„¸ë¡œë¡œ ì´ë¯¸ì§€ ë¶™ì´ê¸°
 
-	//ÀÌÁøÈ­ÇØ¼­ ±ÛÀÚ¸¸ ÃßÃâÇÏ±â
-	//¿­°Å»ó¼ö THRESH_BINARY_INV
+	//ì´ì§„í™”í•´ì„œ ê¸€ìë§Œ ì¶”ì¶œí•˜ê¸°
+	//ì—´ê±°ìƒìˆ˜ THRESH_BINARY_INV
 	threshold(dst_1, dst_1, 170, 255, THRESH_BINARY_INV);
 
-	//»ö¹İÀü
+	//ìƒ‰ë°˜ì „
 	dst_1 = ~dst_1;
 
 	resize(dst_1, dst_1, Size(500, 500), INTER_AREA);
 
-	//ÀÌ¹ÌÁö º¸¿©ÁÖ±â
+	//ì´ë¯¸ì§€ ë³´ì—¬ì£¼ê¸°
 	imshow("font_Composing", dst_1);
 
 	waitKey();
